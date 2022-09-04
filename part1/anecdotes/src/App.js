@@ -4,7 +4,9 @@ const getRandomInt = (max) => {
   return Math.floor(Math.random() * max)
 }
 
+
 const App = () => {
+  // data
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -15,14 +17,25 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
 
+  // hooks
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0)) // 0 filled array
+
+  // handler
+  const updateVotes = (idx) => { 
+    const copy = {...votes}
+    copy[idx] += 1
+    setVotes(copy)
+  }
 
   return (
     <>
+      <div> {anecdotes[selected]} </div>
+      <div> has {votes[selected]} votes</div>
       <div>
-        {anecdotes[selected]}
-      </div>
-      <div>
+        <button onClick={() => updateVotes(selected)}>
+          vote
+        </button>
         <button onClick={ () => setSelected( getRandomInt(anecdotes.length)) }>
           next anecdote
         </button>
