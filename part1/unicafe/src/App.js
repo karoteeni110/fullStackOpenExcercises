@@ -1,7 +1,18 @@
 import { useState } from 'react'
 
-const Statistics = ({good, bad, neutral}) => {
-  if (good+bad+neutral === 0) {
+const Buttons = ({ good, countGood, neutral, countNeutral, 
+                  bad, countBad, increaseByOne }) => {
+  return (
+    <div>
+      <Button onClick={() => { increaseByOne([good, countGood]) }} text="good"></Button>
+      <Button onClick={() => { increaseByOne([neutral, countNeutral]) }} text="neutral"></Button>
+      <Button onClick={() => { increaseByOne([bad, countBad]) }} text="bad"></Button>
+    </div>
+  )
+}
+
+const Statistics = ({ good, bad, neutral }) => {
+  if (good + bad + neutral === 0) {
     return (
       <div>
         No feedback given
@@ -10,25 +21,25 @@ const Statistics = ({good, bad, neutral}) => {
   }
   return (
     <div>
-      <Display counter={good} text="good"></Display>
-      <Display counter={neutral} text="neutral"></Display>
-      <Display counter={bad} text="bad"></Display>
-      <Display counter={bad + good + neutral} text="all"></Display>
-      <Display counter={(good - bad) / (bad + good + neutral)} text="average"></Display>
-      <Display counter={good / (bad + good + neutral) * 100} text="positive"></Display>
+      <StatisticLine value={good} text="good"></StatisticLine>
+      <StatisticLine value={neutral} text="neutral"></StatisticLine>
+      <StatisticLine value={bad} text="bad"></StatisticLine>
+      <StatisticLine value={bad + good + neutral} text="all"></StatisticLine>
+      <StatisticLine value={(good - bad) / (bad + good + neutral)} text="average"></StatisticLine>
+      <StatisticLine value={good / (bad + good + neutral) * 100} text="positive"></StatisticLine>
     </div>
   )
 }
 
-const Display = ({ text, counter }) => {
+const StatisticLine = ({ text, value }) => {
   if (text !== "positive") {
     return (
-      <div>{text} {counter}</div>
+      <div>{text} {value}</div>
     )
   }
 
   return (
-    <div>{text} {counter}%</div>
+    <div>{text} {value}%</div>
   )
 }
 
@@ -51,14 +62,9 @@ const App = () => {
   return (
     <>
       <h1> give feedback</h1>
-      <div>
-        <Button onClick={() => { increaseByOne([good, countGood]) }} text="good"></Button>
-        <Button onClick={() => { increaseByOne([neutral, countNeutral]) }} text="neutral"></Button>
-        <Button onClick={() => { increaseByOne([bad, countBad]) }} text="bad"></Button>
-      </div>
-      <h1>
-        statistics
-      </h1>
+      <Buttons good={good} countGood={countGood} neutral={neutral} countNeutral={countNeutral}
+                bad={bad} countBad={countBad} increaseByOne={increaseByOne}></Buttons>
+      <h1>statistics</h1>
       <Statistics good={good} bad={bad} neutral={neutral}></Statistics>
     </>
   )
