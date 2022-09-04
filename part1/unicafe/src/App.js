@@ -1,12 +1,11 @@
 import { useState } from 'react'
 
-const Buttons = ({ good, countGood, neutral, countNeutral, 
-                  bad, countBad, increaseByOne }) => {
+const Buttons = ({ props, increaseByOne }) => {
   return (
     <div>
-      <Button onClick={() => { increaseByOne([good, countGood]) }} text="good"></Button>
-      <Button onClick={() => { increaseByOne([neutral, countNeutral]) }} text="neutral"></Button>
-      <Button onClick={() => { increaseByOne([bad, countBad]) }} text="bad"></Button>
+      <Button onClick={() => { increaseByOne([props[0][0], props[0][1]]) }} text="good"></Button>
+      <Button onClick={() => { increaseByOne([props[1][0], props[1][1]]) }} text="neutral"></Button>
+      <Button onClick={() => { increaseByOne([props[2][0], props[2][1]]) }} text="bad"></Button>
     </div>
   )
 }
@@ -56,14 +55,14 @@ const App = () => {
   const [good, countGood] = useState(0)
   const [neutral, countNeutral] = useState(0)
   const [bad, countBad] = useState(0)
+  const allStates = [[good, countGood], [neutral, countNeutral], [bad, countBad]]
 
   const increaseByOne = (props) => props[1](props[0] + 1)
 
   return (
     <>
       <h1> give feedback</h1>
-      <Buttons good={good} countGood={countGood} neutral={neutral} countNeutral={countNeutral}
-                bad={bad} countBad={countBad} increaseByOne={increaseByOne}></Buttons>
+      <Buttons props={allStates} increaseByOne={increaseByOne}></Buttons>
       <h1>statistics</h1>
       <Statistics good={good} bad={bad} neutral={neutral}></Statistics>
     </>
