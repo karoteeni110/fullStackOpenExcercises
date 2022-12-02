@@ -3,15 +3,25 @@
 const App = () => {
   const Course = ({ course }) => {
     const Header = ({ course }) => <h1>{course}</h1>
-    const Part = ({ part }) => <p> {part.name} {part.exercises} </p>
-    const Content = ({ parts }) =>
-      <div>
-        <p>{parts.map(part => <Part part={part}/>)}</p>
-      </div>
+    const Content = ({ parts }) => {
+      const Part = ({ part }) => <p> {part.name} {part.exercises} </p>
+      return (
+        <div>
+          {parts.map(part => <Part part={part} />)}
+        </div>
+      )
+    }
+    const Total = ({ parts }) =>
+      <p>
+        <b>
+          total of {parts.reduce((prevSum, part) => prevSum + part.exercises, 0)} exercises
+        </b>
+      </p>
     return (
       <div>
         <Header course={course.name} />
         <Content parts={course.parts} />
+        <Total parts={course.parts} />
       </div>
     )
   }
