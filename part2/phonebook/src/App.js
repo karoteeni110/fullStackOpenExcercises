@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Persons from './components/Persons'
+import PersonFrom from './components/PersonForm'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -43,14 +44,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div >
-          <div>name: <input value={newName} onChange={handleNameChange} /></div>
-          <div>number: <input value={newNumber} onChange={handleNumberChange}/></div>
-          <div><button type="submit">add</button></div>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+
+      <h3>add a new</h3>
+      <PersonFrom handlers={[handleNameChange, handleNumberChange, addPerson]} stateValues={[newName, newNumber]} />
+      <h3>Numbers</h3>
       <Persons persons={persons}/>
     </div>
   )
