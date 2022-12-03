@@ -7,15 +7,23 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
+
   const addPerson = (event) => {
     event.preventDefault()
     const newPerson = {name: newName}
+    const isDuplicate = () => {return Object.values(persons).indexOf(newPerson.name) === -1}
+    const notAdd = () => {
+      alert(`${newName} is already added to phonebook`)
+      setPersons(persons)
+    }
+    const add = () => {
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+    }
     
-    setPersons(persons.concat(newPerson))
-    setNewName('')
+    isDuplicate() ? notAdd() : add()
   } 
   const handleInputChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
