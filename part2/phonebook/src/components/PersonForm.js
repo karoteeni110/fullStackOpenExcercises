@@ -1,5 +1,4 @@
 const PersonForm = ({ handlers, stateValues }) => {
-    console.log(handlers);
     const [handleNameChange, handleNumberChange, addPerson] = handlers
     const [newName, newNumber] = stateValues
     return (
