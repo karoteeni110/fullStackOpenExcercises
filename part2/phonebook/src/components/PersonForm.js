@@ -1,6 +1,7 @@
 const PersonForm = ({ handlers, stateValues }) => {
-    const {addPerson, handleNameChange, handleNumberChange} = handlers
-    const {newName, newNumber} = stateValues
+    console.log(handlers);
+    const [handleNameChange, handleNumberChange, addPerson] = handlers
+    const [newName, newNumber] = stateValues
     return (
         <form onSubmit={addPerson}>
             <div >
