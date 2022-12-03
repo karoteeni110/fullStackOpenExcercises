@@ -1,15 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Persons from './components/Persons'
 import PersonFrom from './components/PersonForm'
 import Filter from './components/Filter'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newQuery, setNewQuery] = useState('')
@@ -51,18 +47,25 @@ const App = () => {
   }
 
   const personsToShow = newQuery === ''
-  ? persons
-  : persons.filter(p => 
-    {
-    const firstCharsLower = p.name.toLowerCase().substring(0, newQuery.length)
-    console.log(firstCharsLower);
-    return firstCharsLower === newQuery.toLowerCase()
-  })
+    ? persons
+    : persons.filter(p => {
+      const firstCharsLower = p.name.toLowerCase().substring(0, newQuery.length)
+      console.log(firstCharsLower);
+      return firstCharsLower === newQuery.toLowerCase()
+    })
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(resp => {
+        setPersons(resp.data)
+      })
+  },[])
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter handlers={[handleQueryChange]} stateValues={[newQuery]}/>
+      <Filter handlers={[handleQueryChange]} stateValues={[newQuery]} />
       <h3>add a new</h3>
       <PersonFrom handlers={[handleNameChange, handleNumberChange, addPerson]} stateValues={[newName, newNumber]} />
       <h3>Numbers</h3>
