@@ -7,35 +7,29 @@ const App = () => {
     // State hooks
     const [data, setData] = useState(["a", "aa"])
     const [newQuery, setNewQuery] = useState('')
-    const [content, setContent] = useState([])
 
-    // helper function
-    const setContentToShow = (newQuery) => {
-        const findOverTen = () => false
-        const findTwoToTen = () => true
-        const OverTenContent = () => {
-            setContent(["Too many matches. Specify another filter."])
-        }
-        const TwoToTenContent = () => {
-            setContent(
-                ["two to ten countries",
-            "yes"]
-                // data
-                // .map(country => country.name.common))
-                // .filter(name => name.toLowerCase().includes(newQuery.toLowerCase())
-                )
-        }
-
-        // eslint-disable-next-line no-unused-expressions
-        findOverTen() ? OverTenContent()
-            : findTwoToTen() ? TwoToTenContent()
-            : {}
+    // Helper functions
+    const findOverTen = (newQuery) => {
+        return newQuery === 'aaa' ? true : false
     }
+    const findTwoToTen = (newQuery) => false
+    const OverTenContent = () => {
+        return ["Too many matches. Specify another filter."]
+    }
+    const TwoToTenContent = () => {
+        return ["two to ten countries", "yes"]
+        // data
+        // .map(country => country.name.common))
+        // .filter(name => name.toLowerCase().includes(newQuery.toLowerCase())
+
+    }
+    const content = findOverTen(newQuery) ? OverTenContent()
+        : findTwoToTen(newQuery) ? TwoToTenContent()
+            : []
 
     // Event handlers
     const handleNewQuery = (event) => {
         setNewQuery(event.target.value)
-        setContentToShow(newQuery)
     }
 
     // Fetch
@@ -47,7 +41,7 @@ const App = () => {
     // }, [])
 
     // Filter data
-    
+
 
     return (
         <div>
