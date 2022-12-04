@@ -5,27 +5,25 @@ import Content from './components/Content'
 
 const App = () => {
     // State hooks
-    const [data, setData] = useState(["a", "aa"])
+    const [data, setData] = useState([])
     const [newQuery, setNewQuery] = useState('')
 
-    // Helper functions
-    const findOverTen = (newQuery) => {
-        return newQuery === 'aaa' ? true : false
+    // `content` and helper functions
+    const queriedData = () => {
+        return data
+            .map(country => country.name.common)
+            .filter(name => name.toLowerCase().includes(newQuery.toLowerCase()))
     }
-    const findTwoToTen = (newQuery) => false
-    const OverTenContent = () => {
-        return ["Too many matches. Specify another filter."]
+    const n_results = 11 // queriedData.length
+    const overTenContent = () => [["Too many matches. Specify another filter."], false]
+    const twoToTenContent = () => {
+        return [["two to ten countries", "yes"], false]
     }
-    const TwoToTenContent = () => {
-        return ["two to ten countries", "yes"]
-        // data
-        // .map(country => country.name.common))
-        // .filter(name => name.toLowerCase().includes(newQuery.toLowerCase())
-
-    }
-    const content = findOverTen(newQuery) ? OverTenContent()
-        : findTwoToTen(newQuery) ? TwoToTenContent()
-            : []
+    const oneContent = () => [[], true]
+    const [content, findsOneResult] = n_results > 10 ? overTenContent()
+        : n_results > 1 ? twoToTenContent()
+        : n_results === 1 ? oneContent()
+        : [[], false]
 
     // Event handlers
     const handleNewQuery = (event) => {
@@ -40,14 +38,10 @@ const App = () => {
     //         setData(resp.data)
     // }, [])
 
-    // Filter data
-
-
     return (
         <div>
             <Search handler={handleNewQuery} stateValues={newQuery} />
-            <Content content={content} />
-            {/* <Country dataToShow={dataToShow} /> */}
+            <Content content={content} oneResult={findsOneResult} />
         </div>
     )
 }
