@@ -5,12 +5,37 @@ import Content from './components/Content'
 
 const App = () => {
     // State hooks
-    const [data, setData] = useState([])
+    const [data, setData] = useState(["a", "aa"])
     const [newQuery, setNewQuery] = useState('')
+    const [content, setContent] = useState([])
+
+    // helper function
+    const setContentToShow = (newQuery) => {
+        const findOverTen = () => false
+        const findTwoToTen = () => true
+        const OverTenContent = () => {
+            setContent(["Too many matches. Specify another filter."])
+        }
+        const TwoToTenContent = () => {
+            setContent(
+                ["two to ten countries",
+            "yes"]
+                // data
+                // .map(country => country.name.common))
+                // .filter(name => name.toLowerCase().includes(newQuery.toLowerCase())
+                )
+        }
+
+        // eslint-disable-next-line no-unused-expressions
+        findOverTen() ? OverTenContent()
+            : findTwoToTen() ? TwoToTenContent()
+            : {}
+    }
 
     // Event handlers
     const handleNewQuery = (event) => {
         setNewQuery(event.target.value)
+        setContentToShow(newQuery)
     }
 
     // Fetch
@@ -22,38 +47,12 @@ const App = () => {
     // }, [])
 
     // Filter data
-    const content = newQuery => {
-        const findOverTen = () => true
-        const findTwoToTen = () => true
-        const OverTenContent = () => {
-            return ["Too many matches. Specify another filter."]
-        }
-        const TwoToTenContent = () => {
-            // console.log(
-                //  data.map(country => country.name.common))
-
-            return data
-            // .map(country => country.name.common)
-                // .filter(name => name.toLowerCase().includes(newQuery.toLowerCase()))
-        }
-
-        // eslint-disable-next-line no-unused-expressions
-        findOverTen()
-            ? OverTenContent()
-            : () => { }
-
-        // eslint-disable-next-line no-unused-expressions
-        findTwoToTen()
-            ? TwoToTenContent()
-            : () => { }
-
-        return []
-    }
+    
 
     return (
         <div>
-            <Search handlers={handleNewQuery} stateValues={newQuery} />
-            <Content content={content(newQuery)} />
+            <Search handler={handleNewQuery} stateValues={newQuery} />
+            <Content content={content} />
             {/* <Country dataToShow={dataToShow} /> */}
         </div>
     )

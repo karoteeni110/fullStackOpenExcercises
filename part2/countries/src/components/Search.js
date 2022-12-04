@@ -1,10 +1,9 @@
-const Search = ({handlers, stateValues}) => {
-    const {handleOnChange} = handlers
-    const {newQuery} = stateValues
+const Search = ({ handler, newQuery}) => {
     return (
         <div>
-            find countries 
-            <input value={newQuery} onChange={handleOnChange}></input>
+            <p>find countries
+            <input value={newQuery} onChange={handler}></input>
+            </p>
         </div>
     )
 }

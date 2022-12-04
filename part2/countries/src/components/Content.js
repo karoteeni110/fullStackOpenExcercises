@@ -1,7 +1,7 @@
 const Content = ({content}) => {
     console.log(content);
     return ( 
-        <div>lalalal</div>
+        <div>{content.map(str => <p key={str}>{str}</p>)}</div>
     )
 }
 
