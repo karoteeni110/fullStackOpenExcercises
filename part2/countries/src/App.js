@@ -5,7 +5,7 @@ import Content from './components/Content'
 
 const App = () => {
     // State hooks
-    const [data, setData] = useState('')
+    const [data, setData] = useState([])
     const [newQuery, setNewQuery] = useState('')
 
     // Event handlers
@@ -14,37 +14,47 @@ const App = () => {
     }
 
     // Fetch
-    axios
-        .get('https://restcountries.com/v3.1/all')
-        .then(resp => {
-            setData(resp.data)
-        }, [])
-    
+    // useEffect(() => {
+    // axios
+    //     .get('https://restcountries.com/v4.1/all')
+    //     .then(resp => {
+    //         setData(resp.data)
+    // }, [])
+
     // Filter data
     const content = newQuery => {
         const findOverTen = () => true
         const findTwoToTen = () => true
-        const OverTenContent = () => {return (<div>aaa</div>)}
+        const OverTenContent = () => {
+            return ["Too many matches. Specify another filter."]
+        }
         const TwoToTenContent = () => {
-            findTwoToTen()
-            ? {return (<div>OK</div>)}
-            {return (<div><div/>)}
+            // console.log(
+                //  data.map(country => country.name.common))
+
+            return data
+            // .map(country => country.name.common)
+                // .filter(name => name.toLowerCase().includes(newQuery.toLowerCase()))
         }
 
+        // eslint-disable-next-line no-unused-expressions
         findOverTen()
-        ? OverTenContent()
-        : { findTwoToTen()
-            ? TwoToTenContent()  
-            : {}}
-    const dataToShow = newQuery => {
-        return data
+            ? OverTenContent()
+            : () => { }
+
+        // eslint-disable-next-line no-unused-expressions
+        findTwoToTen()
+            ? TwoToTenContent()
+            : () => { }
+
+        return []
     }
 
     return (
         <div>
-            <Search handlers={newQuery} stateValues={handleNewQuery} />
-            <Content content={content} /> 
-            <Country dataToShow={dataToShow} />
+            <Search handlers={handleNewQuery} stateValues={newQuery} />
+            <Content content={content(newQuery)} />
+            {/* <Country dataToShow={dataToShow} /> */}
         </div>
     )
 }

@@ -1,6 +1,7 @@
-const Content = (props) = {
-    return (
-        <div>
+const Content = ({content}) => {
+    console.log(content);
+    return ( 
+        <div>lalalal</div>
     )
 }
 
